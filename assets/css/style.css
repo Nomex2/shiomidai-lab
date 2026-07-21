@@ -1,0 +1,86 @@
+
+:root{--ink:#1e2a38;--sub:#5b6b7c;--acc:#0e6ba8;--bg:#f6f8fa;--card:#ffffff;--line:#dde4ea}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;color:var(--ink);background:var(--bg);line-height:1.85}
+a{color:var(--acc)}
+img{max-width:100%;height:auto}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px}
+header.site{background:#fff;border-bottom:3px solid var(--acc)}
+.brand{display:flex;align-items:center;gap:12px;padding:14px 0}
+.brand img{width:44px;height:44px;flex:none}
+.brand .t1{font-size:1.15rem;font-weight:700}
+.brand .t2{font-size:.78rem;color:var(--sub)}
+nav.g{background:var(--acc)}
+nav.g ul{display:flex;flex-wrap:wrap;list-style:none}
+nav.g a{display:block;padding:9px 14px;color:#fff;text-decoration:none;font-size:.9rem}
+nav.g a:hover{background:rgba(255,255,255,.15)}
+.searchbar{padding:10px 0;display:flex;justify-content:flex-end}
+#sform{display:flex;gap:6px}
+#sq{padding:6px 10px;border:1px solid var(--line);border-radius:4px;width:220px;font-size:16px}
+#sform button{padding:6px 14px;border:0;border-radius:4px;background:var(--acc);color:#fff;cursor:pointer;flex:none}
+.sres{margin:8px 0;padding:10px 14px;border-radius:4px;font-size:.9rem;background:#eef2f6;color:var(--sub)}
+.sres.deny,.sres.wait{background:#eef2f6;color:var(--sub)}
+main{padding:26px 0 60px}
+h1{font-size:1.5rem;border-left:6px solid var(--acc);padding-left:12px;margin-bottom:18px}
+h2{font-size:1.15rem;margin:26px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+p{margin:10px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin:14px 0}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.d{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+table.d th,table.d td{border:1px solid var(--line);padding:8px 10px;font-size:.92rem;text-align:left}
+table.d th{background:#eef3f7;white-space:nowrap}
+ul.plain{margin:10px 0 10px 22px}
+footer.site{background:#243447;color:#cfd8e3;padding:26px 0;font-size:.85rem}
+footer.site .fine{color:#243447;user-select:text}
+.fict{margin-top:10px;font-size:.7rem;color:#54687f}
+.lvmark{margin-top:12px;font-size:.7rem;letter-spacing:.08em;color:#54687f}
+.bloglist .card h2{border:0;margin:0 0 6px}
+.meta{color:var(--sub);font-size:.82rem}
+.notice{background:#fff8e6;border:1px solid #eadfb0;border-radius:6px;padding:12px 16px;font-size:.9rem}
+img.ph{border-radius:6px;border:1px solid var(--line)}
+.blink{animation:bk 1s step-start infinite}@keyframes bk{50%{opacity:0}}
+.konami{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#fff;color:#3a4a5c;border:1px solid var(--line);padding:14px 22px;border-radius:8px;font-size:.9rem;max-width:90%;box-shadow:0 6px 30px rgba(30,42,56,.25);z-index:99}
+
+/* ---- 資料アーカイブ(深層)——表層と同じ体裁の事務的ページ ---- */
+body.arch header.site{border-bottom-color:#8195a8}
+body.arch nav.g{display:none}
+body.arch h1{border-left-color:#8195a8}
+.term{background:#fbfbf8;border:1px solid #e2e2d8;border-radius:4px;padding:16px 18px;font-size:.9rem;white-space:pre-wrap;overflow-x:auto;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;color:#33404e}
+.hl{font-weight:700;color:#1e2a38}
+.dim{color:#8a97a5;font-size:.85rem}
+.seal{margin-top:30px;color:#9aa7b4;font-size:.8rem;letter-spacing:.15em}
+.sigil{float:right;font-size:.85rem;color:#9aa7b4;border:1px solid #d5dce3;border-radius:3px;padding:2px 8px;letter-spacing:.15em}
+#gate{max-width:460px;margin:60px auto;text-align:center}
+#gate input{width:100%;padding:12px;background:#fff;border:1px solid var(--line);color:var(--ink);border-radius:6px;font-size:16px;text-align:center;letter-spacing:.2em}
+#gate button{margin-top:12px;padding:10px 30px;background:var(--acc);color:#fff;border:0;border-radius:6px;cursor:pointer}
+.gate-msg{margin-top:14px;color:#a4553f;min-height:1.5em;font-size:.9rem}
+#vault-out{display:none}
+audio,video{width:100%;margin:10px 0}
+.dl{display:inline-block;border:1px solid var(--line);background:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;margin:6px 4px 6px 0}
+
+/* ---- レスポンシブ(スマホ) ---- */
+@media (max-width:640px){
+  .wrap{padding:0 14px}
+  .brand{padding:10px 0;gap:9px}
+  .brand img{width:36px;height:36px}
+  .brand .t1{font-size:.98rem}
+  .brand .t2{font-size:.66rem}
+  nav.g ul{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  nav.g a{padding:9px 11px;white-space:nowrap;font-size:.85rem}
+  .searchbar{justify-content:stretch}
+  #sform{width:100%}
+  #sq{flex:1;width:auto;min-width:0}
+  h1{font-size:1.22rem}
+  h2{font-size:1.05rem}
+  .card{padding:14px 15px}
+  table.d{display:block;overflow-x:auto;white-space:nowrap}
+  .sigil{float:none;display:inline-block;margin-bottom:10px}
+  .term{font-size:.84rem;padding:12px 13px}
+  #gate{margin:36px auto}
+  main{padding:18px 0 44px}
+}
+@media (min-width:641px) and (max-width:900px){
+  .wrap{padding:0 16px}
+  h1{font-size:1.38rem}
+}

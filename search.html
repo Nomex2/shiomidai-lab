@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>サイト内検索 | 汐見台工科大学 音響情報学研究室</title>
+<link rel="stylesheet" href="assets/css/style.css?v=59e3413a">
+<script>const SITE_ROOT="";</script>
+<script src="assets/js/engine.js?v=59e3413a" defer></script>
+
+</head>
+<body class="">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">
+      <img src="assets/img/logo.svg" alt="">
+      <div><div class="t1">汐見台工科大学 音響情報学研究室</div><div class="t2">Aihara Laboratory, Shiomidai Institute of Technology</div></div>
+    </div>
+  </div>
+  <nav class="g"><div class="wrap"><ul><li><a href="index.html">ホーム</a></li><li><a href="about.html">研究室について</a></li><li><a href="research.html">研究内容</a></li><li><a href="members.html">メンバー</a></li><li><a href="publications.html">業績</a></li><li><a href="news.html">お知らせ</a></li><li><a href="blog/index.html">ブログ</a></li><li><a href="access.html">アクセス</a></li></ul></div></nav>
+  <div class="wrap searchbar">
+    <form id="sform" autocomplete="off"><input id="sq" type="text" placeholder="サイト内検索"><button>検索</button></form>
+  </div>
+</header>
+<main><div class="wrap">
+
+<h1>サイト内検索</h1>
+<div class="card">
+<p class="meta" id="qline">キーワードを入力してください。</p>
+<p id="rline" style="display:none">該当する情報は見つかりませんでした。<br>
+キーワードを変えるか、表記(ひらがな・カタカナ・漢字)を変えてお試しください。</p>
+</div>
+<div id="rlist"></div>
+<div id="sugg">
+<h2>よく閲覧されるページ</h2>
+<ul class="plain">
+<li><a href="research.html">研究内容</a> / <a href="research/reverb.html">残響解析</a></li>
+<li><a href="members.html">メンバー</a> / <a href="publications.html">業績</a></li>
+<li><a href="blog/index.html">研究室ブログ</a> / <a href="news.html">お知らせ</a></li>
+<li><a href="faq.html">よくある質問</a> / <a href="access.html">アクセス</a></li>
+</ul>
+</div>
+<script src="assets/js/searchindex.js?v=59e3413a"></script>
+<script>
+(function(){
+  function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function nrm(s){
+    s = s.replace(/[　]/g,' ').trim().toLowerCase();
+    s = s.replace(/[！-～]/g, function(c){ return String.fromCharCode(c.charCodeAt(0)-0xFEE0); });
+    s = s.replace(/[ァ-ヶ]/g, function(c){ return String.fromCharCode(c.charCodeAt(0)-0x60); });
+    return s;
+  }
+  var q = new URLSearchParams(location.search).get('q') || '';
+  if (!q) return;
+  var box = document.getElementById('sq');
+  if (box) box.value = q;
+  var terms = q.split(/[\s　]+/).filter(Boolean);
+  var hits = (typeof LV0_INDEX !== 'undefined' ? LV0_INDEX : []).filter(function(pg){
+    var hay = nrm(pg.t + ' ' + pg.x);
+    return terms.every(function(t){ return hay.indexOf(nrm(t)) !== -1; });
+  });
+  document.getElementById('qline').textContent = '「' + q + '」の検索結果: ' + hits.length + '件';
+  if (!hits.length) {
+    document.getElementById('rline').style.display = 'block';
+    return;
+  }
+  document.getElementById('sugg').style.display = 'none';
+  var out = '';
+  hits.slice(0, 20).forEach(function(pg){
+    var pos = -1, raw = pg.x;
+    for (var i = 0; i < terms.length && pos < 0; i++) pos = raw.indexOf(terms[i]);
+    var start = Math.max(0, pos - 30);
+    var snip = (start > 0 ? '…' : '') + raw.slice(Math.max(0,pos-30), Math.max(0,pos-30) + 90) + '…';
+    if (pos < 0) snip = raw.slice(0, 90) + '…';
+    out += '<div class="card"><h2 style="border:0;margin:0 0 4px"><a href="' + pg.u + '">' + esc(pg.t) + '</a></h2>'
+         + '<p class="meta">' + esc(snip) + '</p></div>';
+  });
+  document.getElementById('rlist').innerHTML = out;
+})();
+</script>
+
+</div></main>
+<footer class="site"><div class="wrap">
+<p>© 2016-2021 汐見台工科大学 情報理工学域 音響情報学研究室(相原研究室)</p>
+<p class="fine">&nbsp;</p>
+<p class="fict">このWebサイトの内容は、考察型コンテンツのために作られたフィクションです。実在の人物・団体・海域とは関係ありません。</p>
+<div class="lvmark">0/170(LV0)</div>
+</div></footer>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /p/
+
+# 索引されない場所にこそ、声は残る。
+# The corridor remembers what the index forgets.
