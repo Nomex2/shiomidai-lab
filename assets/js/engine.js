@@ -120,7 +120,7 @@
       ki = 0;
       const d = document.createElement('div');
       d.className = 'konami';
-      d.textContent = '相原:「近道はない。けれど、よく気づいたね。——刻印を集めなさい。七つで、ひとつの言葉になる。」';
+      d.textContent = '相原:「近道はない。けれど、よく気づいたね。」';
       document.body.appendChild(d);
       setTimeout(() => d.remove(), 12000);
     }
