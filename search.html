@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>サイト内検索 | 汐見台工科大学 音響情報学研究室</title>
-<link rel="stylesheet" href="assets/css/style.css?v=9976a325">
+<link rel="stylesheet" href="assets/css/style.css?v=3f5b6bd5">
 <script>const SITE_ROOT="";</script>
-<script src="assets/js/engine.js?v=9976a325" defer></script>
+<script src="assets/js/engine.js?v=3f5b6bd5" defer></script>
 
 </head>
 <body class="">
@@ -42,7 +42,7 @@
 <li><a href="faq.html">よくある質問</a> / <a href="access.html">アクセス</a></li>
 </ul>
 </div>
-<script src="assets/js/searchindex.js?v=9976a325"></script>
+<script src="assets/js/searchindex.js?v=3f5b6bd5"></script>
 <script>
 (function(){
   function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -64,8 +64,16 @@
 
   function renderArc(hit) {
     if (!hit) return finish(0);
-    var id = (hit.p.split('/').pop() || '').replace('.html', '');
     var abox = document.getElementById('arcbox');
+    if (hit.d) {
+      abox.innerHTML = '<div class="card arcr denyc">'
+        + '<span class="tag">PERMISSION DENIED ── 開示不可</span>'
+        + '<h2 style="border:0;margin:6px 0 4px">閲覧権限がありません</h2>'
+        + '<p class="meta">照会語は登録簿に存在しますが、単独の語では開示されません。</p></div>';
+      finish(1);
+      return;
+    }
+    var id = (hit.p.split('/').pop() || '').replace('.html', '');
     abox.innerHTML = '<div class="card arcr">'
       + '<span class="tag">学内限定 ── 取扱注意</span>'
       + '<h2 style="border:0;margin:0 0 4px"><a id="arclink" href="' + hit.p + '">資料 ' + id.toUpperCase() + '</a></h2>'
