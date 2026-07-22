@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>サイト内検索 | 汐見台工科大学 音響情報学研究室</title>
-<link rel="stylesheet" href="assets/css/style.css?v=47a0eaa3">
+<link rel="stylesheet" href="assets/css/style.css?v=9976a325">
 <script>const SITE_ROOT="";</script>
-<script src="assets/js/engine.js?v=47a0eaa3" defer></script>
+<script src="assets/js/engine.js?v=9976a325" defer></script>
 
 </head>
 <body class="">
@@ -31,6 +31,7 @@
 <p id="rline" style="display:none">該当する情報は見つかりませんでした。<br>
 キーワードを変えるか、表記(ひらがな・カタカナ・漢字)を変えてお試しください。</p>
 </div>
+<div id="arcbox"></div>
 <div id="rlist"></div>
 <div id="sugg">
 <h2>よく閲覧されるページ</h2>
@@ -41,7 +42,7 @@
 <li><a href="faq.html">よくある質問</a> / <a href="access.html">アクセス</a></li>
 </ul>
 </div>
-<script src="assets/js/searchindex.js?v=47a0eaa3"></script>
+<script src="assets/js/searchindex.js?v=9976a325"></script>
 <script>
 (function(){
   function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -60,12 +61,49 @@
     var hay = nrm(pg.t + ' ' + pg.x);
     return terms.every(function(t){ return hay.indexOf(nrm(t)) !== -1; });
   });
-  document.getElementById('qline').textContent = '「' + q + '」の検索結果: ' + hits.length + '件';
-  if (!hits.length) {
-    document.getElementById('rline').style.display = 'block';
-    return;
+
+  function renderArc(hit) {
+    if (!hit) return finish(0);
+    var id = (hit.p.split('/').pop() || '').replace('.html', '');
+    var abox = document.getElementById('arcbox');
+    abox.innerHTML = '<div class="card arcr">'
+      + '<span class="tag">学内限定 ── 取扱注意</span>'
+      + '<h2 style="border:0;margin:0 0 4px"><a id="arclink" href="' + hit.p + '">資料 ' + id.toUpperCase() + '</a></h2>'
+      + '<p class="meta">学内資料アーカイブ(整理中)に該当が 1 件あります。</p>'
+      + '<p class="meta" id="arcmsg"></p></div>';
+    if (hit.t) {
+      document.getElementById('arclink').addEventListener('click', function (ev) {
+        ev.preventDefault();
+        var m = document.getElementById('arcmsg');
+        m.innerHTML = '<span class="blink">■</span> 深海回線に照会中……';
+        window.__arc.clock().then(function (sec) {
+          if (sec === null) { m.textContent = '観測網に接続できない。海はいま、こちらを向いていない。'; return; }
+          if (sec % 10 !== 0) { m.textContent = '……応答がありません。(受信秒: ' + String(sec).padStart(2, '0') + ')'; return; }
+          location.href = hit.p;
+        });
+      });
+    }
+    finish(1);
   }
-  document.getElementById('sugg').style.display = 'none';
+
+  function finish(arcN) {
+    var total = hits.length + arcN;
+    document.getElementById('qline').textContent = '「' + q + '」の検索結果: ' + total + '件';
+    if (!total) {
+      document.getElementById('rline').style.display = 'block';
+      return;
+    }
+    document.getElementById('sugg').style.display = 'none';
+    renderLv0();
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    if (window.__arc) { window.__arc.probe(q).then(renderArc, function(){ renderArc(null); }); }
+    else { renderArc(null); }
+  });
+
+  function renderLv0() {
+  if (!hits.length) return;
   var out = '';
   hits.slice(0, 20).forEach(function(pg){
     var pos = -1, raw = pg.x;
@@ -77,6 +115,7 @@
          + '<p class="meta">' + esc(snip) + '</p></div>';
   });
   document.getElementById('rlist').innerHTML = out;
+  }
 })();
 </script>
 

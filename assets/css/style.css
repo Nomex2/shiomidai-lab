@@ -41,11 +41,46 @@ footer.site .fine{color:#243447;user-select:text}
 img.ph{border-radius:6px;border:1px solid var(--line)}
 .blink{animation:bk 1s step-start infinite}@keyframes bk{50%{opacity:0}}
 .konami{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#fff;color:#3a4a5c;border:1px solid var(--line);padding:14px 22px;border-radius:8px;font-size:.9rem;max-width:90%;box-shadow:0 6px 30px rgba(30,42,56,.25);z-index:99}
+.arcr{background:#141c25;border-color:#2a3947;color:#c6d2dd}
+.arcr a{color:#8fb4d8}
+.arcr .meta{color:#7e8fa0}
+.arcr .tag{display:inline-block;background:#43101a;color:#d8a7ae;font-size:.7rem;letter-spacing:.25em;padding:2px 8px;border-radius:3px;margin-bottom:6px}
 
-/* ---- 資料アーカイブ(深層)——表層と同じ体裁の事務的ページ ---- */
-body.arch header.site{border-bottom-color:#8195a8}
+/* ---- 資料アーカイブ(深層)——学内限定・機密資料調 ---- */
+body.arch{--bg:#12181f;--ink:#c6d2dd;--sub:#7e8fa0;--card:#19222c;--line:#2a3947;--acc:#5f8cb8;background:var(--bg);color:var(--ink)}
+body.arch::before{content:"学内限定資料 ── 取扱注意";display:block;text-align:center;background:#43101a;color:#d8a7ae;font-size:.72rem;letter-spacing:.35em;padding:4px 10px}
+body.arch header.site{background:#0d1319;border-bottom:3px solid var(--lvc,#5f8cb8)}
+body.arch .brand .t1{color:#dce6ef}
 body.arch nav.g{display:none}
-body.arch h1{border-left-color:#8195a8}
+body.arch h1{border-left-color:var(--lvc,#5f8cb8);color:#dce6ef}
+body.arch h2{border-bottom-color:var(--line)}
+body.arch a{color:#8fb4d8}
+body.arch table.d{background:#141c25}
+body.arch table.d th{background:#1c2833}
+body.arch table.d th,body.arch table.d td{border-color:var(--line)}
+body.arch .term{background:#0e141b;border-color:#26333f;color:#a9bac9}
+body.arch .hl{color:#e4edf5}
+body.arch .dim{color:#67788a}
+body.arch .notice{background:#241f14;border-color:#4a3f22;color:#cbbd93}
+body.arch img{opacity:.92}
+body.arch img.ph,body.arch .dl{border-color:var(--line)}
+body.arch .dl{background:#19222c;color:#8fb4d8}
+body.arch .sres{background:#19222c;color:var(--sub)}
+body.arch .sres.deny,body.arch .sres.wait{background:#19222c;color:var(--sub)}
+body.arch #sq{background:#0e141b;border-color:var(--line);color:var(--ink)}
+body.arch #sform button,body.arch #gate button{background:#33506b}
+body.arch #gate input{background:#0e141b;border-color:var(--line);color:var(--ink)}
+body.arch .gate-msg{color:#c98a76}
+body.arch footer.site{background:#0d1319;color:#7e8fa0}
+body.arch footer.site .fine{color:#0d1319}
+body.arch .fict{color:#3d4c5c}
+body.arch .lvmark{color:var(--lvc,#5f8cb8)}
+body.arch .sigil{color:#8fa0b0;border-color:var(--line)}
+body.arch .seal{color:#67788a}
+body.arch .konami{background:#19222c;color:#c6d2dd;border-color:#2a3947;box-shadow:0 6px 30px rgba(0,0,0,.5)}
+/* 深度アクセント: 浅い階は藍、深い階ほど紅へ */
+body.lv1{--lvc:#5f8cb8}body.lv2{--lvc:#5f9ab0}body.lv3{--lvc:#6aa38f}body.lv4{--lvc:#8aa06a}
+body.lv5{--lvc:#b09a5a}body.lv6{--lvc:#c08657}body.lv7{--lvc:#c56b52}body.lv8{--lvc:#b94b4b}body.lv9{--lvc:#a53a55}
 .term{background:#fbfbf8;border:1px solid #e2e2d8;border-radius:4px;padding:16px 18px;font-size:.9rem;white-space:pre-wrap;overflow-x:auto;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;color:#33404e}
 .hl{font-weight:700;color:#1e2a38}
 .dim{color:#8a97a5;font-size:.85rem}

@@ -37,44 +37,24 @@
     return null; // APIに届かない=回廊は沈黙する(端末時計へはフォールバックしない)
   }
 
-  function showResult(html, cls) {
-    let box = document.getElementById('sres');
-    if (!box) {
-      box = document.createElement('div');
-      box.id = 'sres';
-      const form = document.getElementById('sform');
-      form.parentNode.insertBefore(box, form.nextSibling);
-    }
-    box.className = 'sres ' + (cls || '');
-    box.innerHTML = html;
-  }
-
-  async function onSearch(ev) {
+  function onSearch(ev) {
     ev.preventDefault();
     const q = document.getElementById('sq').value;
-    const n = normalize(q);
-    if (!n) return false;
-    const h = await sha256hex(n);
-    const hit = TABLE[h];
-    if (!hit) {
-      location.href = REL + 'search.html?q=' + encodeURIComponent(q);
-      return false;
-    }
-    if (hit.t) { // timeGate
-      showResult('<span class="blink">■</span> 深海回線に照会中……', 'wait');
-      const sec = await fetchSeconds();
-      if (sec === null) {
-        showResult('観測網に接続できない。海はいま、こちらを向いていない。', 'deny');
-        return false;
-      }
-      if (sec % 10 !== 0) {
-        showResult('……応答がありません。(受信秒: ' + String(sec).padStart(2, '0') + ')', 'deny');
-        return false;
-      }
-    }
-    location.href = REL + hit.p;
+    if (!String(q || '').trim()) return false;
+    location.href = REL + 'search.html?q=' + encodeURIComponent(q);
     return false;
   }
+
+  // 検索結果ページから参照される照会窓口
+  window.__arc = {
+    probe: async function (q) {
+      const n = normalize(q);
+      if (!n) return null;
+      const h = await sha256hex(n);
+      return TABLE[h] || null;
+    },
+    clock: fetchSeconds
+  };
 
   // ---- AES-GCM パスワードゲート ----
   async function unlockVault(pass) {
