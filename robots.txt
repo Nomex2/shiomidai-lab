@@ -1,5 +1,7 @@
 User-agent: *
 Disallow: /p/
 
+Sitemap: https://shiomidai-lab.pages.dev/sitemap.xml
+
 # 索引されない場所にこそ、声は残る。
 # The corridor remembers what the index forgets.
