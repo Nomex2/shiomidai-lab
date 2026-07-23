@@ -106,9 +106,34 @@
     }
   });
 
+  // ---- 回廊ポスト: 返信到着のサイト内通知 ----
+  function corridorNotice() {
+    let at, done;
+    try { at = parseInt(localStorage.getItem('cp_at') || '0', 10); done = localStorage.getItem('cp_done'); }
+    catch (e) { return; }
+    if (!at || done) return;
+    const POST = 'p/5a1df8fc.html';
+    if (location.pathname.indexOf(POST.split('/').pop()) !== -1) return; // 受付ページでは出さない
+    const remain = 600000 - (Date.now() - at);
+    const show = () => {
+      if (document.getElementById('cnotice')) return;
+      const d = document.createElement('div');
+      d.id = 'cnotice';
+      d.className = 'konami cnotice';
+      d.innerHTML = '<span class="blink">■</span> 海底連絡系: 返信が一件、届いている。'
+        + '<a href="' + REL + POST + '">受領する</a>'
+        + '<span class="cnx" title="閉じる">×</span>';
+      d.querySelector('.cnx').addEventListener('click', ev => { ev.stopPropagation(); d.remove(); });
+      document.body.appendChild(d);
+    };
+    if (remain <= 0) show();
+    else if (remain < 3600000) setTimeout(show, remain + 2000);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     const f = document.getElementById('sform');
     if (f) f.addEventListener('submit', onSearch);
     initGate();
+    corridorNotice();
   });
 })();

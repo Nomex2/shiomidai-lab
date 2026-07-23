@@ -6,9 +6,9 @@
 <title>回廊ポスト 受付 | 汐見台工科大学 音響情報学研究室</title>
 <link rel="icon" href="../favicon.ico" sizes="32x32">
 <link rel="icon" type="image/png" href="../favicon-48.png" sizes="48x48">
-<link rel="stylesheet" href="../assets/css/style.css?v=3f5b6bd5">
+<link rel="stylesheet" href="../assets/css/style.css?v=654873a2">
 <script>const SITE_ROOT="../";</script>
-<script src="../assets/js/engine.js?v=3f5b6bd5" defer></script>
+<script src="../assets/js/engine.js?v=654873a2" defer></script>
 
 <meta name="robots" content="noindex,nofollow">
 </head>
@@ -76,7 +76,7 @@
     if (!q.trim()) return;
     m.textContent = '送信中……';
     sha(nrm(q)).then(function(h){ return rpc('corridor_post', { qh: h }); }).then(function(tok){
-      try { localStorage.setItem('cp_token', tok); } catch(e){}
+      try { localStorage.setItem('cp_token', tok); localStorage.setItem('cp_at', String(Date.now())); localStorage.removeItem('cp_done'); } catch(e){}
       m.innerHTML = '受理。受付番号: <strong>' + String(tok).replace(/[^a-z0-9]/gi,'') + '</strong><br>' +
         '六〇〇秒。番号は控えておくこと。台帳は名を記録しない。番号を失えば、返信は海に残る。';
     }).catch(function(){ m.textContent = OFFLINE; });
@@ -91,8 +91,8 @@
     rpc('corridor_fetch', { tok: t }).then(function(res){
       if (res.s === 'none') m.textContent = 'その番号の預かりは無い。';
       else if (res.s === 'travel') m.textContent = '往復中。残り ' + res.remain + ' 秒。声はいま、海の中にいる。';
-      else if (res.s === 'noise') m.textContent = res.text;
-      else if (res.s === 'reply') m.innerHTML = String(res.text).replace(/\n/g, '<br>');
+      else if (res.s === 'noise') { m.textContent = res.text; try { localStorage.setItem('cp_done', '1'); } catch(e){} }
+      else if (res.s === 'reply') { m.innerHTML = String(res.text).replace(/\n/g, '<br>'); try { localStorage.setItem('cp_done', '1'); } catch(e){} }
       else m.textContent = OFFLINE;
     }).catch(function(){ m.textContent = OFFLINE; });
   });

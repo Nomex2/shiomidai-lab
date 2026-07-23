@@ -48,6 +48,10 @@ img.ph{border-radius:6px;border:1px solid var(--line)}
 .arcr.denyc{border-color:#5a2430}
 .arcr.denyc .tag{background:#6b1220;color:#f0b9c0}
 .arcr.denyc h2{color:#e0c4c9}
+.cnotice a{margin-left:10px;color:#2a5788;font-weight:700}
+.cnotice .cnx{margin-left:14px;cursor:pointer;color:#98a4b0;user-select:none}
+body.arch .cnotice{background:#19222c;color:#c6d2dd;border-color:#2a3947}
+body.arch .cnotice a{color:#8fb4d8}
 
 /* ---- 資料アーカイブ(深層)——学内限定・機密資料調 ---- */
 body.arch{--bg:#12181f;--ink:#c6d2dd;--sub:#7e8fa0;--card:#19222c;--line:#2a3947;--acc:#5f8cb8;background:var(--bg);color:var(--ink)}
