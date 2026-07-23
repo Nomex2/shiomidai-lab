@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>回廊ポスト 受付 | 汐見台工科大学 音響情報学研究室</title>
+<link rel="stylesheet" href="../assets/css/style.css?v=3f5b6bd5">
+<script>const SITE_ROOT="../";</script>
+<script src="../assets/js/engine.js?v=3f5b6bd5" defer></script>
+
+<meta name="robots" content="noindex,nofollow">
+</head>
+<body class="arch lv9">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">
+      <img src="../assets/img/logo.svg" alt="">
+      <div><div class="t1">汐見台工科大学 音響情報学研究室</div><div class="t2">学内資料アーカイブ</div></div>
+    </div>
+  </div>
+  <nav class="g"><div class="wrap"><ul></ul></div></nav>
+  <div class="wrap searchbar">
+    <form id="sform" autocomplete="off"><input id="sq" type="text" placeholder="サイト内検索"><button>検索</button></form>
+  </div>
+</header>
+<main><div class="wrap">
+
+<h1>回廊ポスト 受付</h1>
+<div class="term">海底連絡系 送受台帳(自動応答)
+
+受付: 問いを一件、預かります。往復六〇〇秒。
+受領: 受付番号と引き換えに、返信を渡します。
+注意: 回廊は問いを選びます。海を通る問いは、ひとつだけ。
+</div>
+<div class="card">
+<p>投函</p>
+<form id="cpost" autocomplete="off"><input id="cq" type="text" placeholder="問い"><button>投函</button></form>
+<p class="meta" id="cpmsg"></p>
+</div>
+<div class="card">
+<p>受領</p>
+<form id="cfetch" autocomplete="off"><input id="ct" type="text" placeholder="受付番号"><button>受領</button></form>
+<p class="meta" id="cfmsg"></p>
+</div>
+<script>
+(function(){
+  var URL0 = "https://bichdgzjemxggxerxxmd.supabase.co", KEY0 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpY2hkZ3pqZW14Z2d4ZXJ4eG1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NTE0MTQsImV4cCI6MjEwMDMyNzQxNH0.o8o5mRjnbxMmCAGsTpgy3PkQfAf7bzoxb_GDDejIUa4";
+  function nrm(s){
+    s = String(s||'').replace(/[\s、。,.!?！?…・「」『』]/g, '');
+    s = s.replace(/[！-～]/g, function(c){ return String.fromCharCode(c.charCodeAt(0)-0xFEE0); });
+    s = s.toLowerCase();
+    s = s.replace(/[ァ-ヶ]/g, function(c){ return String.fromCharCode(c.charCodeAt(0)-0x60); });
+    return s.replace(/[ー]/g, '');
+  }
+  function sha(s){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)).then(function(b){
+      return Array.from(new Uint8Array(b)).map(function(x){ return x.toString(16).padStart(2,'0'); }).join('');
+    });
+  }
+  function rpc(fn, body){
+    if (!URL0) return Promise.reject(new Error('offline'));
+    return fetch(URL0 + '/rest/v1/rpc/' + fn, {
+      method: 'POST',
+      headers: { 'apikey': KEY0, 'Authorization': 'Bearer ' + KEY0, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }).then(function(r){ if (!r.ok) throw new Error('net'); return r.json(); });
+  }
+  var OFFLINE = '回線不通。海況の回復を待て。';
+  document.getElementById('cpost').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var q = document.getElementById('cq').value;
+    var m = document.getElementById('cpmsg');
+    if (!q.trim()) return;
+    m.textContent = '送信中……';
+    sha(nrm(q)).then(function(h){ return rpc('corridor_post', { qh: h }); }).then(function(tok){
+      try { localStorage.setItem('cp_token', tok); } catch(e){}
+      m.innerHTML = '受理。受付番号: <strong>' + String(tok).replace(/[^a-z0-9]/gi,'') + '</strong><br>' +
+        '六〇〇秒。番号は控えておくこと。台帳は名を記録しない。番号を失えば、返信は海に残る。';
+    }).catch(function(){ m.textContent = OFFLINE; });
+  });
+  document.getElementById('cfetch').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var t = document.getElementById('ct').value.trim();
+    if (!t) { try { t = localStorage.getItem('cp_token') || ''; } catch(e){} }
+    var m = document.getElementById('cfmsg');
+    if (!t) { m.textContent = '受付番号を。'; return; }
+    m.textContent = '照会中……';
+    rpc('corridor_fetch', { tok: t }).then(function(res){
+      if (res.s === 'none') m.textContent = 'その番号の預かりは無い。';
+      else if (res.s === 'travel') m.textContent = '往復中。残り ' + res.remain + ' 秒。声はいま、海の中にいる。';
+      else if (res.s === 'noise') m.textContent = res.text;
+      else if (res.s === 'reply') m.innerHTML = String(res.text).replace(/\n/g, '<br>');
+      else m.textContent = OFFLINE;
+    }).catch(function(){ m.textContent = OFFLINE; });
+  });
+})();
+</script>
+
+</div></main>
+<footer class="site"><div class="wrap">
+<p>汐見台工科大学 情報理工学域 音響情報学研究室 学内資料アーカイブ(整理中)</p>
+<p class="fine">&nbsp;</p>
+<p class="fict">このWebサイトの内容は、考察型コンテンツのために作られたフィクションです。実在の人物・団体・海域とは関係ありません。</p>
+<div class="lvmark">170/171(LV9)</div>
+</div></footer>
+
+</body>
+</html>
